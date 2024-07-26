@@ -10,7 +10,7 @@ import static org.hamcrest.Matchers.equalTo;
 public class User_Tests {
     API_Resource resource =new API_Resource();
     @Test(priority = 1)
-    public void testPostUser(){
+    public void testPostOrder(){
         Response res= resource.postOrder();
 
         String responseString = res.getBody().asString();
@@ -51,7 +51,7 @@ public class User_Tests {
         }
     }
     @Test(priority = 2)
-    public void GetUserByName(){
+    public void testGetEsims(){
         Response res= resource.getListOfEsims();
 
         Assert.assertEquals(res.statusCode(),200);
