@@ -1,14 +1,13 @@
-package api_Tests;
-
-import api_endpoints.API_Resource;
+package apitests;
+import apiendpoints.APIResource;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.json.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import static org.hamcrest.Matchers.equalTo;
-public class User_Tests {
-    API_Resource resource =new API_Resource();
+public class AiraloTest {
+    APIResource resource =new APIResource();
     @Test(priority = 1)
     public void testPostOrder(){
         Response res= resource.postOrder();
@@ -34,13 +33,9 @@ public class User_Tests {
 
         for (int i = 0; i < jo.getJSONObject("data").getJSONArray("sims").length(); i++) {
             String simIds = jo.getJSONObject("data").getJSONArray("sims").getJSONObject(i).get("id").toString();
-            System.out.println(simIds);
             String simiccid = jo.getJSONObject("data").getJSONArray("sims").getJSONObject(i).get("iccid").toString();
-            System.out.println(simiccid);
             String simapn_type = jo.getJSONObject("data").getJSONArray("sims").getJSONObject(i).get("apn_type").toString();
-            System.out.println(simapn_type);
             String simis_roaming = jo.getJSONObject("data").getJSONArray("sims").getJSONObject(i).get("is_roaming").toString();
-            System.out.println(simis_roaming);
 
             if (simIds.equals("135716") || simiccid.equals("893000000000067131") || simapn_type.equals("manual")
                     || simis_roaming.equals("true")) {

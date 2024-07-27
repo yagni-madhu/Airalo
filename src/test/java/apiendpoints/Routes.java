@@ -1,4 +1,4 @@
-package api_endpoints;
+package apiendpoints;
 
 public class Routes {
     public static String base_url="https://sandbox-partners-api.airalo.com/v2";

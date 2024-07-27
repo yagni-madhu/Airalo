@@ -99,13 +99,13 @@ Checks that the number of eSIMs is 6.
 Verifies that each eSIM has the correct package slug.
 
 **Endpoints**
-**src/test/java/api_endpoints/Routes.java: Contains the endpoint URLs.**
+**src/test/java/apiendpoints/Routes.java: Contains the endpoint URLs.**
 The Routes class contains the URLs for the API endpoints used in this project. These include:
 generateToken_url: URL to generate an access token.
 post_url: URL to create an order for eSIMs.
 get_url: URL to retrieve a list of eSIMs.
 
-**src/test/java/api_endpoints/API_Resource.java: Contains the API methods and tests.**
+**src/test/java/apiendpoints/API_Resource.java: Contains the API methods and tests.**
 **API_Resource Class**
 This class contains the following methods:
 
