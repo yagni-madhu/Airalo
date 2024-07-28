@@ -38,11 +38,15 @@ public class UIAutomationTest {
         String actualData=driver.findElement(By.xpath("//div[@class='sim-detail-info tw-relative']/ul/li/div/p[@data-testid='DATA-value']")).getText();
         Assert.assertEquals(actualData,"1 GB");
 
+        // The following two assertions fails as actual values from application is not matching from the expected requirements
+
         String actualValidity=driver.findElement(By.xpath("//div[@class='sim-detail-info tw-relative']/ul/li/div/p[@data-testid='VALIDITY-value']")).getText();
         Assert.assertEquals(actualValidity,"7 days");
 
         String actualPrice=driver.findElement(By.xpath("//div[@class='sim-detail-info tw-relative']/ul/li/div/p[@data-testid='PRICE-value']")).getText();
         Assert.assertEquals(actualPrice,"$4.50");
+
+        driver.quit();
 
     }
 

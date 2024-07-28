@@ -1,20 +1,48 @@
 package apitests;
 import apiendpoints.APIResource;
+import apiendpoints.Base;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.json.JSONObject;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import static org.hamcrest.Matchers.equalTo;
+
+import static apiendpoints.StaticResources.*;
+import static io.restassured.RestAssured.given;
+
 public class AiraloTest {
+    private String accessToken;
+    private String orderId;
+    @BeforeClass
+    public void authenticate() {
+        Response response = given()
+                .formParam("grant_type", "client_credentials")
+                .formParam(clientId, client_id_Value)
+                .formParam(clientSecret, client_secret_Value)
+                .post(Base.generateToken_url);
+        String responseString = response.getBody().asString();
+        JsonPath jsonPath = new JsonPath(responseString);
+        accessToken = jsonPath.getString("data.access_token");
+
+    }
+
+    public String getAccessToken() {
+
+        return this.accessToken;
+    }
+
+    public String getOrderId() {
+        return this.orderId;
+    }
     APIResource resource =new APIResource();
     @Test(priority = 1)
     public void testPostOrder(){
-        Response res= resource.postOrder();
+        Response res= resource.postOrder(getAccessToken());
 
         String responseString = res.getBody().asString();
-        System.out.println("Order Response: " + responseString);
         JsonPath jsonPath = new JsonPath(responseString);
+        this.orderId = jsonPath.getString("data.id");
 
         Assert.assertEquals(jsonPath.get("data.currency"), "USD");
         Assert.assertEquals(jsonPath.getString("data.package_id"), "merhaba-7days-1gb");
@@ -31,28 +59,37 @@ public class AiraloTest {
         boolean status = false;
         JSONObject jo = new JSONObject(res.asString());
 
-        for (int i = 0; i < jo.getJSONObject("data").getJSONArray("sims").length(); i++) {
-            String simIds = jo.getJSONObject("data").getJSONArray("sims").getJSONObject(i).get("id").toString();
-            String simiccid = jo.getJSONObject("data").getJSONArray("sims").getJSONObject(i).get("iccid").toString();
-            String simapn_type = jo.getJSONObject("data").getJSONArray("sims").getJSONObject(i).get("apn_type").toString();
-            String simis_roaming = jo.getJSONObject("data").getJSONArray("sims").getJSONObject(i).get("is_roaming").toString();
+        int numberOfSims = jo.getJSONObject("data").getJSONArray("sims").length();
+        Assert.assertEquals(numberOfSims, 6);
 
-            if (simIds.equals("135716") || simiccid.equals("893000000000067131") || simapn_type.equals("manual")
-                    || simis_roaming.equals("true")) {
-                status = true;
-            }
-            Assert.assertEquals(status, true);
+        for (int i = 0; i < numberOfSims; i++) {
+            String sim_Id = jo.getJSONObject("data").getJSONArray("sims").getJSONObject(i).get(simId).toString();
+            String sim_Iccid = jo.getJSONObject("data").getJSONArray("sims").getJSONObject(i).get(simIccid).toString();
+            String sim_ApnType = jo.getJSONObject("data").getJSONArray("sims").getJSONObject(i).get(simApnType).toString();
+
+            Assert.assertNotNull(sim_Id);
+            Assert.assertNotNull(sim_Iccid);
+            Assert.assertNotNull(sim_ApnType);
 
         }
     }
     @Test(priority = 2)
     public void testGetEsims(){
-        Response res= resource.getListOfEsims();
+        int simQuantity = 0;
+        int expectedSimQuantity = 6;
+        Response res= resource.getListOfEsims(getAccessToken());
+
+        JSONObject jo = new JSONObject(res.asString());
+        for (int i = 0; i < jo.getJSONArray("data").length(); i++) {
+            String orderId = jo.getJSONArray("data").getJSONObject(i).getJSONObject("simable").get(simId).toString();
+            String packageId = jo.getJSONArray("data").getJSONObject(i).getJSONObject("simable").get(package_id).toString();
+            if(orderId.equals(getOrderId()) && packageId.equals("merhaba-7days-1gb")) {
+                simQuantity = simQuantity + 1;
+            }
+        }
 
         Assert.assertEquals(res.statusCode(),200);
-        Assert.assertEquals(res.contentType(),"application/json");
-        res.then().body("data[6].simable.quantity",equalTo(6))
-                .body("data[6].simable.package_id", equalTo("merhaba-7days-1gb"));
+        Assert.assertEquals(simQuantity,expectedSimQuantity);
 
     }
 }

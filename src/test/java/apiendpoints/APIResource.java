@@ -6,21 +6,8 @@ import org.testng.annotations.BeforeClass;
 import static apiendpoints.Properties.getUrl;
 import static io.restassured.RestAssured.given;
 public class APIResource {
-    private static String accessToken;
-    @BeforeClass
-    public void authenticate() {
-        Response response = given()
-                .formParam("grant_type", "client_credentials")
-                .formParam("client_id", "974d515d41f86868eccd2d22aae8d10e")
-                .formParam("client_secret", "tILYEqQRq5PnZ5nccQZ1IiVugUWhZN2UveJZ9rVa")
-                .post(Base.generateToken_url);
-        String responseString = response.getBody().asString();
-        JsonPath jsonPath = new JsonPath(responseString);
-        accessToken = jsonPath.getString("data.access_token");
 
-    }
-    public Response postOrder() {
-     // String post_url= getUrl().getString("post_url");// Retrieves data from properties class
+    public Response postOrder(String accessToken) {
 
         Response response = given()
                 .accept("application/json")
@@ -33,7 +20,7 @@ public class APIResource {
         return response;
     }
 
-    public Response getListOfEsims() {
+    public Response getListOfEsims(String accessToken) {
         Response response = given()
                 .accept("application/json")
                 .header("Authorization", "Bearer " + accessToken)
