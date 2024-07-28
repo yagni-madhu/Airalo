@@ -30,24 +30,18 @@ public class UIAutomationTest {
 
 
         String actualOperator=driver.findElement(By.xpath("//div[@data-testid='sim-detail-operator-title']/p")).getText();
-        System.out.println(actualOperator);
         Assert.assertEquals(actualOperator,"Moshi Moshi");
 
         String actualCoverage=driver.findElement(By.xpath("//div[@class='sim-detail-info tw-relative']/ul/li/div/p[@data-testid='COVERAGE-value']")).getText();
-        System.out.println(actualCoverage);
         Assert.assertEquals(actualCoverage,"Japan");
 
         String actualData=driver.findElement(By.xpath("//div[@class='sim-detail-info tw-relative']/ul/li/div/p[@data-testid='DATA-value']")).getText();
-        System.out.println(actualData);
         Assert.assertEquals(actualData,"1 GB");
 
         String actualValidity=driver.findElement(By.xpath("//div[@class='sim-detail-info tw-relative']/ul/li/div/p[@data-testid='VALIDITY-value']")).getText();
-        System.out.println(actualValidity);
         Assert.assertEquals(actualValidity,"7 days");
 
         String actualPrice=driver.findElement(By.xpath("//div[@class='sim-detail-info tw-relative']/ul/li/div/p[@data-testid='PRICE-value']")).getText();
-        System.out.println(actualPrice);
-
         Assert.assertEquals(actualPrice,"$4.50");
 
     }
