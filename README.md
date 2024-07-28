@@ -19,7 +19,7 @@ Before you begin, ensure you have met the following requirements:
       
    **cd ui-automation-test**
 Set up Maven project:
-Ensure your pom.xml is configured to include the necessary dependencies for Selenium and TestNG. Add the following dependencies to your pom.xml if not already present:
+Ensure your pom.xml is configured to include the necessary dependencies for Selenium and TestNG.
 
 <dependencies>
     <dependency>
@@ -67,7 +67,7 @@ Maven
 An IDE (IntelliJ IDEA) 
 **Setup**
 Clone the repository
- git clone (https://github.com/yagni-madhu/Airalo)
+ git clone https://github.com/yagni-madhu/Airalo
 
 Set up Maven project:
 Ensure your pom.xml is configured to include the necessary dependencies for Rest-assured and TestNG. 
@@ -89,6 +89,13 @@ Ensure your pom.xml is configured to include the necessary dependencies for Rest
             <artifactId>json-path</artifactId>
             <version>5.1.1</version>
             <scope>test</scope>
+        </dependency>    
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20220320</version>
+        </dependency>
 
   
 **Project Structure**
