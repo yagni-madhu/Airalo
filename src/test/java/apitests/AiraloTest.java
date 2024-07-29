@@ -28,7 +28,6 @@ public class AiraloTest {
     }
 
     public String getAccessToken() {
-
         return this.accessToken;
     }
 
@@ -55,8 +54,6 @@ public class AiraloTest {
         Assert.assertEquals(jsonPath.getString("data.data"), "1 GB");
         Assert.assertEquals(jsonPath.getFloat("data.price"), 4.5);
 
-
-        boolean status = false;
         JSONObject jo = new JSONObject(res.asString());
 
         int numberOfSims = jo.getJSONObject("data").getJSONArray("sims").length();
